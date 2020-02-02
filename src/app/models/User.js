@@ -1,10 +1,17 @@
 import Sequelize, { Model } from 'sequelize';
+import bcrypt from 'bcryptjs';
 
 class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        text: Sequelize.STRING,
+        name: Sequelize.STRING,
+        surname: Sequelize.STRING,
+        email: Sequelize.STRING,
+        password: Sequelize.VIRTUAL,
+        password_hash: Sequelize.STRING,
+        cellphone: Sequelize.STRING,
+        partiner: Sequelize.BOOLEAN,
       },
       {
         sequelize,
@@ -12,7 +19,18 @@ class User extends Model {
       }
     );
 
+    this.addHook('beforeSave', async user => {
+      if (user.password) {
+        // eslint-disable-next-line no-param-reassign
+        user.password_hash = await bcrypt.hash(user.password, 8);
+      }
+    });
+
     return this;
+  }
+
+  static associate(models) {
+    this.hasMany(models.Address, { foreignKey: 'user_id', as: 'user_address' });
   }
 }
 export default User;
