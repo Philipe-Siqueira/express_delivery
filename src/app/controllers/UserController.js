@@ -23,7 +23,7 @@ class UserController {
       cellphone: Yup.string()
         .required()
         .min(10),
-      partiner: Yup.boolean().required(),
+      partner: Yup.boolean().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -38,11 +38,11 @@ class UserController {
       return res.status(400).json({ error: 'User already exists.' });
     }
 
-    const { id, name, surname, email, cellphone, partiner } = await User.create(
+    const { id, name, surname, email, cellphone, partner } = await User.create(
       req.body
     );
 
-    return res.json({ id, name, surname, email, cellphone, partiner });
+    return res.json({ id, name, surname, email, cellphone, partner });
   }
 }
 

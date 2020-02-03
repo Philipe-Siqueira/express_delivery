@@ -12,7 +12,7 @@ module.exports = {
         references: { model: 'User', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        allowNull: true,
+        allowNull: false,
       },
       postcode: {
         type: Sequelize.STRING,

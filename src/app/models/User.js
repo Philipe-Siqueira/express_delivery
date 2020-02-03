@@ -11,7 +11,7 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         cellphone: Sequelize.STRING,
-        partiner: Sequelize.BOOLEAN,
+        partner: Sequelize.BOOLEAN,
       },
       {
         sequelize,
@@ -31,6 +31,15 @@ class User extends Model {
 
   static associate(models) {
     this.hasMany(models.Address, { foreignKey: 'user_id', as: 'user_address' });
+    this.hasMany(models.Delivery, {
+      foreignKey: 'client_id',
+      as: 'clients',
+    });
+
+    this.hasMany(models.Delivery, {
+      foreignKey: 'partner_id',
+      as: 'partners',
+    });
   }
 }
 export default User;

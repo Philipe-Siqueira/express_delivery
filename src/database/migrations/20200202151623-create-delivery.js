@@ -1,39 +1,36 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('User', {
+    return queryInterface.createTable('Delivery', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      name: {
+      product: {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      surname: {
-        type: Sequelize.STRING,
+      value: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: {
-          args: true,
-          msg: 'User e-mail already exists.',
-        },
+      delivered_at: {
+        type: Sequelize.DATE,
+        defaultValue: null,
       },
-      password_hash: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      cellphone: {
-        type: Sequelize.STRING,
+      client_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'User', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
-      partner: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+      partner_id: {
+        type: Sequelize.INTEGER,
+        references: { model: 'User', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
       created_at: {
@@ -52,6 +49,6 @@ module.exports = {
   },
 
   down: queryInterface => {
-    return queryInterface.dropTable('User');
+    return queryInterface.dropTable('Delivery');
   },
 };
