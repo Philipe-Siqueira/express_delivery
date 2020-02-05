@@ -2,15 +2,40 @@ import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
-  async index(req, res) {
+  async findAll(req, res) {
     const users = await User.findAll({
       attributes: ['id', 'name', 'surname', 'email', 'cellphone'],
+      include: {
+        association: 'addresses',
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+        },
+      },
     });
 
-    return res.json(users);
+    return res.status(200).json(users);
   }
 
-  async store(req, res) {
+  async findById(req, res) {
+    const { user_id } = req.params;
+    const users = await User.findByPk(user_id, {
+      attributes: ['id', 'name', 'surname', 'email', 'cellphone'],
+      include: {
+        association: 'addresses',
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+        },
+      },
+    });
+
+    if (!users) {
+      return res.status(400).json({ error: 'Usuário não existe.' });
+    }
+
+    return res.status(200).json(users);
+  }
+
+  async create(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       surname: Yup.string().required(),
@@ -42,7 +67,17 @@ class UserController {
       req.body
     );
 
-    return res.json({ id, name, surname, email, cellphone, partner });
+    return res
+      .status(201)
+      .json({ id, name, surname, email, cellphone, partner });
+  }
+
+  async update(req, res) {
+    return res.json({ message: 'update' });
+  }
+
+  async delete(req, res) {
+    return res.status(204).json({ message: 'delete' });
   }
 }
 

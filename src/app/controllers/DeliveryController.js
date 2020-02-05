@@ -14,17 +14,29 @@ class DeliveryController {
           attributes: {
             exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
           },
+          include: {
+            association: 'addresses',
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+            },
+          },
         },
         {
           association: 'partners',
           attributes: {
             exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
           },
+          include: {
+            association: 'addresses',
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+            },
+          },
         },
       ],
     });
 
-    return res.json({ deliveries });
+    return res.status(200).json({ deliveries });
   }
 
   async findById(req, res) {
@@ -40,20 +52,36 @@ class DeliveryController {
           attributes: {
             exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
           },
+          include: {
+            association: 'addresses',
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+            },
+          },
         },
         {
           association: 'partners',
           attributes: {
             exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
           },
+          include: {
+            association: 'addresses',
+            attributes: {
+              exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+            },
+          },
         },
       ],
     });
 
-    return res.json({ delivery });
+    if (!delivery) {
+      return res.status(400).json({ error: 'Entrega não existe.' });
+    }
+
+    return res.status(200).json({ delivery });
   }
 
-  async store(req, res) {
+  async create(req, res) {
     const schema = Yup.object().shape({
       client_id: Yup.number().required(),
       partner_id: Yup.number().required(),
@@ -66,18 +94,6 @@ class DeliveryController {
       return res.status(400).json({ error: 'Erro no preenchimento dos dados' });
     }
 
-    /*
-    const isPartiner = await User.findOne({
-      where: { id: partner_id, partiner: true },
-    });
-
-    if (!isPartiner) {
-      return res
-        .json(401)
-        .json({ error: 'Apenas prestadores de serviço podem gerar entregas.' });
-    }
-    */
-
     const { client_id, partner_id, product, value, delivered_at } = req.body;
 
     const delivery = await Delivery.create({
@@ -88,7 +104,15 @@ class DeliveryController {
       delivered_at,
     });
 
-    return res.json(delivery);
+    return res.status(200).json(delivery);
+  }
+
+  async update(req, res) {
+    return res.json({ message: 'update' });
+  }
+
+  async delete(req, res) {
+    return res.json({ message: 'delete' });
   }
 }
 

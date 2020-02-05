@@ -3,17 +3,21 @@ import Address from '../models/Address';
 import User from '../models/User';
 
 class AddressController {
-  async index(req, res) {
+  async findById(req, res) {
     const { user_id } = req.params;
 
     const addresses = await User.findByPk(user_id, {
-      include: { association: 'user_address' },
+      include: { association: 'addresses' },
     });
 
-    return res.json(addresses);
+    if (!addresses) {
+      return res.status(400).json({ error: 'Endereço não existe.' });
+    }
+
+    return res.status(200).json(addresses);
   }
 
-  async store(req, res) {
+  async create(req, res) {
     const { user_id } = req.params;
 
     const schema = Yup.object().shape({
@@ -57,7 +61,15 @@ class AddressController {
       complement,
       user_id,
     });
-    return res.json({ newAddress });
+    return res.status(201).json({ newAddress });
+  }
+
+  async update(req, res) {
+    return res.status(200).json({ message: 'update' });
+  }
+
+  async delete(req, res) {
+    return res.status(204).json({ message: 'delete' });
   }
 }
 

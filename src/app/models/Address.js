@@ -23,7 +23,7 @@ class Address extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user_address' });
+    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'addresses' });
   }
 }
 export default Address;
