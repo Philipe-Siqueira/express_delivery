@@ -13,6 +13,9 @@ module.exports = {
       },
       value: {
         type: Sequelize.DECIMAL(10, 2),
+        validate: {
+          isDecimal: true,
+        },
         allowNull: false,
       },
       delivered_at: {

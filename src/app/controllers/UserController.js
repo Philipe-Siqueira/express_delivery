@@ -73,7 +73,106 @@ class UserController {
   }
 
   async update(req, res) {
-    return res.json({ message: 'update' });
+    const schema = Yup.object().shape({
+      user_id: Yup.number().required(),
+      name: Yup.string(),
+      surname: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string().min(8),
+      password: Yup.string().when('oldPassword', (oldPassword, field) =>
+        oldPassword ? field.required() : field
+      ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+      cellphone: Yup.string().min(10),
+      partner: Yup.boolean(),
+    });
+
+    await schema
+      .isValid(req.body)
+      .then()
+      .catch(err => res.status(400).json({ error: err.errors }));
+
+    const { email, oldPassword, user_id } = req.body;
+    const user = await User.findByPk(user_id);
+
+    if (email !== user.email) {
+      const userExists = await User.findOne({
+        where: { email },
+      });
+
+      if (userExists) {
+        return res.status(400).json({ error: 'E-mail já esta em uso.' });
+      }
+    }
+
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: 'Password incorreto.' });
+    }
+
+    const { id, name, surname, cellphone, partner } = await user.update(
+      req.body
+    );
+    return res.json({
+      message: 'update',
+      id,
+      name,
+      surname,
+      cellphone,
+      partner,
+    });
+  }
+
+  async updateSelf(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string(),
+      surname: Yup.string(),
+      email: Yup.string().email(),
+      oldPassword: Yup.string().min(8),
+      password: Yup.string().when('oldPassword', (oldPassword, field) =>
+        oldPassword ? field.required() : field
+      ),
+      confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+      ),
+      cellphone: Yup.string().min(10),
+      partner: Yup.boolean(),
+    });
+
+    await schema
+      .isValid(req.body)
+      .then()
+      .catch(err => res.status(400).json({ error: err.errors }));
+
+    const { email, oldPassword } = req.body;
+    const user = await User.findByPk(req.userId);
+
+    if (email !== user.email) {
+      const userExists = await User.findOne({
+        where: { email },
+      });
+
+      if (userExists) {
+        return res.status(400).json({ error: 'User already exists.' });
+      }
+    }
+
+    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+      return res.status(401).json({ error: 'Password incorreto.' });
+    }
+
+    const { id, name, surname, cellphone, partner } = await user.update(
+      req.body
+    );
+    return res.json({
+      message: 'update',
+      id,
+      name,
+      surname,
+      cellphone,
+      partner,
+    });
   }
 
   async delete(req, res) {

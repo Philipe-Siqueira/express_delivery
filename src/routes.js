@@ -39,6 +39,8 @@ routes.get('/', async (req, res) => {
  * @swagger
  * /sessions:
  *          post:
+ *              tags:
+ *                - Sessão
  *              description: Use para Autenticar e gerar o token.
  *              name: New session
  *              produces:
@@ -70,16 +72,197 @@ routes.post('/sessions', SessionController.store);
 
 routes.use(authMiddleware);
 
-routes.post('/users', UserController.findAll);
-routes.get('/users', UserController.create);
+/**
+ * @swagger
+ * /users/:
+ *   post:
+ *     tags:
+ *      - Usuários
+ *     description: Adiciona um novo usuário ao sistema
+ *     name: Cadastrar Usuário
+ *     produces:
+ *      - application/json
+ *     consumes:
+ *      - application/json
+ *     parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *         type: object
+ *         properties:
+ *          name:
+ *            type: string
+ *          surname:
+ *            type: string
+ *          email:
+ *           type: string
+ *          password:
+ *           type: string
+ *           format: password
+ *          cellphone:
+ *            type: string
+ *          partiner:
+ *            type: boolean
+ *        required:
+ *         - email
+ *         - password
+ *     responses:
+ *       200:
+ *         description: Pagina inicial
+ */
+
+routes.post('/users', UserController.create);
+
+routes.put('/users', UserController.update);
+
+routes.put('/users', UserController.updateSelf);
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     tags:
+ *      - Usuários
+ *     description: Lista usuários
+ *     responses:
+ *       200:
+ *         description: Pagina inicial
+ */
+
+routes.get('/users', UserController.findAll);
+
+/**
+ * @swagger
+ * /users/:
+ *   get:
+ *     tags:
+ *      - Usuários
+ *     description: Lista usuários pelo ID
+ *     responses:
+ *       201:
+ *         description: Pagina inicial
+ */
+
 routes.get('/users/:user_id', UserController.findById);
+
+/**
+ * @swagger
+ * /users/:user_id/address:
+ *   post:
+ *     tags:
+ *      - Endereços
+ *     summary: Cria Endereço
+ *     description: Adiciona o endereço ao usuário
+ *     name: Cadastrar Endereço
+ *     produces:
+ *      - application/json
+ *     consumes:
+ *      - application/json
+ *     parameters:
+ *      - name: user_id
+ *        in: path
+ *        type: integer
+ *        required: true
+ *      - name: body
+ *        in: body
+ *        schema:
+ *         type: object
+ *         properties:
+ *          postcode:
+ *            type: string
+ *          country:
+ *            type: string
+ *          state:
+ *           type: string
+ *          city:
+ *           type: string
+ *          district:
+ *            type: string
+ *          address:
+ *            type: boolean
+ *          number:
+ *            type: integer
+ *          complement:
+ *            type: boolean
+ *     responses:
+ *       200:
+ *         description: Pagina inicial
+ */
 
 routes.post('/users/:user_id/address', AddressController.create);
 routes.get('/users/:user_id/address', AddressController.findById);
 
+/**
+ * @swagger
+ * /deliveries:
+ *   post:
+ *     tags:
+ *      - Entregas
+ *     description: Lista usuários pelo ID
+ *     name: Cadastrar uma entrega.
+ *     produces:
+ *      - application/json
+ *     consumes:
+ *      - application/json
+ *     parameters:
+ *      - name: body
+ *        in: body
+ *        schema:
+ *         type: object
+ *         properties:
+ *          client_id:
+ *            type: integer
+ *          partner_id:
+ *            type: integer
+ *          product:
+ *           type: string
+ *          value:
+ *           type: number
+ *           format: float
+ *     responses:
+ *       201:
+ *         description: Pagina inicial
+ */
+
 routes.post('/deliveries', DeliveryController.create);
+
+/**
+ * @swagger
+ * /deliveries/:
+ *   get:
+ *     tags:
+ *      - Entregas
+ *     description: Lista usuários pelo ID
+ *     responses:
+ *       201:
+ *         description: Pagina inicial
+ */
+
 routes.get('/deliveries', DeliveryController.findAll);
+
+/**
+ * @swagger
+ * /deliveries/:delivery_id:
+ *   get:
+ *     tags:
+ *      - Entregas
+ *     description: Lista endereço pelo Id
+ *     parameters:
+ *      - name: delivery_id
+ *        in: path
+ *        type: integer
+ *        required: true
+ *     responses:
+ *       201:
+ *         description: Pagina inicial
+ */
 routes.get('/deliveries/:delivery_id', DeliveryController.findById);
+
+routes.put('/deliveries', DeliveryController.update);
+
+routes.put('/deliveries/done', DeliveryController.updateDone);
+
+routes.delete('/deliveries', DeliveryController.delete);
 
 routes.get('/partner/list', PartnerController.findAll);
 export default routes;
