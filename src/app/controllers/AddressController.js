@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import Address from '../models/Address';
 import User from '../models/User';
 
@@ -7,12 +8,31 @@ class AddressController {
     const { user_id } = req.params;
 
     const addresses = await User.findByPk(user_id, {
-      include: { association: 'addresses' },
+      include: {
+        association: 'addresses',
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+        },
+      },
+      attributes: {
+        exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
+      },
     });
 
     if (!addresses) {
       return res.status(400).json({ error: 'Endereço não existe.' });
     }
+
+    return res.status(200).json(addresses);
+  }
+
+  async findAll(req, res) {
+    const addresses = await User.findAll({
+      include: { association: 'addresses' },
+      attributes: {
+        exclude: ['password_hash', 'createdAt', 'updatedAt', 'deletedAt'],
+      },
+    });
 
     return res.status(200).json(addresses);
   }
@@ -69,7 +89,35 @@ class AddressController {
   }
 
   async delete(req, res) {
-    return res.status(204).json({ message: 'delete' });
+    const { address_id } = req.params;
+
+    const schema = Yup.object().shape({
+      address_id: Yup.number().required('ID deve ser fornecido.'),
+    });
+
+    await schema
+      .isValid(req.body)
+      .then()
+      .catch(err => res.status(400).json({ error: err.errors }));
+
+    const isPartner = await User.findOne({
+      where: {
+        id: req.userId,
+        partner: true,
+        email: {
+          [Op.iLike]: '%@expressdelivery.com',
+        },
+      },
+    });
+
+    if (!isPartner) {
+      return res
+        .status(401)
+        .json({ error: 'Apenas Parceiros podem remover registros.' });
+    }
+
+    const del = await Address.destroy({ where: { id: address_id } });
+    return res.status(202).json({ del, message: 'Usuário removido!' });
   }
 }
 

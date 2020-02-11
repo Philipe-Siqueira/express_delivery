@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 import User from '../models/User';
 
 class UserController {
@@ -72,7 +73,8 @@ class UserController {
       .json({ id, name, surname, email, cellphone, partner });
   }
 
-  async update(req, res) {
+  async updateById(req, res) {
+    const { user_id } = req.params;
     const schema = Yup.object().shape({
       user_id: Yup.number().required(),
       name: Yup.string(),
@@ -94,7 +96,7 @@ class UserController {
       .then()
       .catch(err => res.status(400).json({ error: err.errors }));
 
-    const { email, oldPassword, user_id } = req.body;
+    const { email, oldPassword } = req.body;
     const user = await User.findByPk(user_id);
 
     if (email !== user.email) {
@@ -119,12 +121,13 @@ class UserController {
       id,
       name,
       surname,
+      email,
       cellphone,
       partner,
     });
   }
 
-  async updateSelf(req, res) {
+  async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),
       surname: Yup.string(),
@@ -176,7 +179,34 @@ class UserController {
   }
 
   async delete(req, res) {
-    return res.status(204).json({ message: 'delete' });
+    const { user_id } = req.params;
+    const schema = Yup.object().shape({
+      user_id: Yup.number().required('ID deve ser fornecido.'),
+    });
+
+    await schema
+      .isValid(req.body)
+      .then()
+      .catch(err => res.status(400).json({ error: err.errors }));
+
+    const isPartner = await User.findOne({
+      where: {
+        id: req.userId,
+        partner: true,
+        email: {
+          [Op.iLike]: '%@expressdelivery.com',
+        },
+      },
+    });
+
+    if (!isPartner) {
+      return res
+        .status(401)
+        .json({ error: 'Apenas Parceiros podem remover registros.' });
+    }
+
+    const del = await User.destroy({ where: { id: user_id } });
+    return res.status(202).json({ del, message: 'Usuário removido!' });
   }
 }
 

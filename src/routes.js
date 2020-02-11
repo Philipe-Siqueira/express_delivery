@@ -35,6 +35,8 @@ routes.get('/', async (req, res) => {
 
 // Routes
 
+routes.post('/users', UserController.create);
+
 /**
  * @swagger
  * /sessions:
@@ -111,11 +113,9 @@ routes.use(authMiddleware);
  *         description: Pagina inicial
  */
 
-routes.post('/users', UserController.create);
+routes.put('/users/:user_id', UserController.updateById);
 
 routes.put('/users', UserController.update);
-
-routes.put('/users', UserController.updateSelf);
 
 /**
  * @swagger
@@ -131,6 +131,7 @@ routes.put('/users', UserController.updateSelf);
 
 routes.get('/users', UserController.findAll);
 
+routes.delete('/users/:user_id', UserController.delete);
 /**
  * @swagger
  * /users/:
@@ -191,7 +192,8 @@ routes.get('/users/:user_id', UserController.findById);
 
 routes.post('/users/:user_id/address', AddressController.create);
 routes.get('/users/:user_id/address', AddressController.findById);
-
+routes.get('/addresses', AddressController.findAll);
+routes.delete('/addresses/:address_id', AddressController.delete);
 /**
  * @swagger
  * /deliveries:
@@ -262,7 +264,7 @@ routes.put('/deliveries', DeliveryController.update);
 
 routes.put('/deliveries/done', DeliveryController.updateDone);
 
-routes.delete('/deliveries', DeliveryController.delete);
+routes.delete('/deliveries/:delivery_id', DeliveryController.delete);
 
 routes.get('/partner/list', PartnerController.findAll);
 export default routes;

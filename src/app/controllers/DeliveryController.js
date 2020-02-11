@@ -1,12 +1,20 @@
 import * as Yup from 'yup';
-import { startOfHour, parseISO } from 'date-fns';
+import { Op } from 'sequelize';
 import Delivery from '../models/Delivery';
+import User from '../models/User';
 
 class DeliveryController {
   async findAll(req, res) {
+    const { page = 1 } = req.query;
     const deliveries = await Delivery.findAll({
       // Remover comentário abaixo se quiser listar removidos logicamente
       // paranoid: false,
+      order: [
+        ['id', 'ASC'],
+        // ['name', 'DESC'],
+      ],
+      limit: 10,
+      offset: (page - 1) * 10,
       attributes: {
         exclude: ['createdAt', 'updatedAt', 'deletedAt'],
       },
@@ -160,6 +168,31 @@ class DeliveryController {
   }
 
   async delete(req, res) {
+    const schema = Yup.object().shape({
+      delivery_id: Yup.number().required('ID deve ser fornecido.'),
+    });
+
+    await schema
+      .isValid(req.body)
+      .then()
+      .catch(err => res.status(400).json({ error: err.errors }));
+
+    const isPartner = await User.findOne({
+      where: {
+        id: req.userId,
+        partner: true,
+        email: {
+          [Op.iLike]: '%@expressdelivery.com',
+        },
+      },
+    });
+
+    if (!isPartner) {
+      return res
+        .status(401)
+        .json({ error: 'Apenas Parceiros podem remover registros.' });
+    }
+
     const { delivery_id } = req.body;
     const del = await Delivery.destroy({ where: { id: delivery_id } });
     return res.status(202).json({ del, message: 'Entrega removida!' });
