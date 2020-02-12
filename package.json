@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "dev:debug": "nodemon --inspect src/index.js",
-    "build": "sucrase ./src -d ./dist --transforms imports",
+    "build": "sucrase ./src -d ./dist --transforms javascript,imports",
     "start": "node dist/app"
   },
   "dependencies": {
