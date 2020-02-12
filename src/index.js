@@ -1,7 +1,7 @@
 import app from './app';
 
 const appName = process.env.NODE_APP_NAME || 'Unicad - Delivery Express';
-const PORT = process.env.NODE_APP_PORT || 80;
+const PORT = process.env.NODE_APP_PORT || process.env.PORT;
 const HOST = process.env.NODE_APP_HOST || '0.0.0.0';
 const URL = process.env.NODE_APP_URL || 'http://localhost';
 app.listen(PORT, HOST, () => {
