@@ -72,7 +72,7 @@ routes.post('/users', UserController.create);
 
 routes.post('/sessions', SessionController.store);
 
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 /**
  * @swagger
