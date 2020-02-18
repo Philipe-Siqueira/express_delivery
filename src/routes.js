@@ -30,7 +30,7 @@ routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, options));
  */
 
 routes.get('/', async (req, res) => {
-  return res.json({ message: 'Unicad - Delivery Express!' });
+  return res.json({ message: 'Unicad - Express Delivery!' });
 });
 
 // Routes

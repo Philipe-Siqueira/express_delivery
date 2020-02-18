@@ -31,10 +31,10 @@ class SessionController {
       return res.status(401).json({ error: 'Não autorizado.' });
     }
 
-    const { id, name } = userExists;
+    const { id, name, partner } = userExists;
 
     return res.status(201).json({
-      user: { id, name, email },
+      user: { id, name, email, partner },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,
       }),

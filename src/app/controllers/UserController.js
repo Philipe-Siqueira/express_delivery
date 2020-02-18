@@ -5,7 +5,7 @@ import User from '../models/User';
 class UserController {
   async findAll(req, res) {
     const users = await User.findAll({
-      attributes: ['id', 'name', 'surname', 'email', 'cellphone'],
+      attributes: ['id', 'name', 'surname', 'email', 'cellphone', 'partner'],
       include: {
         association: 'addresses',
         attributes: {

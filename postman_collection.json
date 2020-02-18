@@ -1,0 +1,661 @@
+{
+	"info": {
+		"_postman_id": "9419d167-c399-4aa7-bd79-a163c1541e0a",
+		"name": "* Express Delivery",
+		"description": "Coleção para testes da API do Express Delivery.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User Create",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Jose\",\n\t\"surname\": \"Segundo\",\n\t\"email\": \"ze2@mailtwo.com\",\n\t\"password\":\"!Ab12345\",\n\t\"cellphone\": \"21999999999\",\n\t\"partner\": false\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Criação de Usuários"
+					},
+					"response": []
+				},
+				{
+					"name": "User List All",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxNDU0NTAxLCJleHAiOjE1ODE1NDA5MDF9.Qbw-TbBmH6tjkP7MPy-NDLVSgJ0y8gNQ0zwSyX5MbZs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Lista todos os usuários."
+					},
+					"response": []
+				},
+				{
+					"name": "User List One",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgwOTIyMzM0LCJleHAiOjE1ODEwMDg3MzR9.51ibqLozydp7O-3nZmTW3ebeikwxlaK8AzxjwvM-hS0",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDU3MzIxLCJleHAiOjE1ODExNDM3MjF9.BzAH0A38qoTUsm2n2BCDkOwCM91HVKsQ22a5gshtixo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Philipe\",\n\t\"surname\": \"Siqueira\",\n\t\"email\": \"philipe.siqueira@deliveryexpress.com\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Atualiza usuário"
+					},
+					"response": []
+				},
+				{
+					"name": "User Update Self",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDUxMzA1LCJleHAiOjE1ODExMzc3MDV9.ijkRizSnfduV88nfdVNtFfvgOH-kDEN4aQlXwZc-vz8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Philipe\",\n\t\"surname\": \"Siqueira\",\n\t\"email\": \"philipe.siqueira@deliveryexpress.com\",\n\t\"oldPassword\":\"!A123456\",\n\t\"cellphone\": \"21999999999\",\n\t\"partner\": true,\n\t\"password\":\"!A12345b\",\n\t\"confirmPassword\": \"!A123456b\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Atualização do Perfil pelo próprio usuário"
+					},
+					"response": []
+				},
+				{
+					"name": "User Update By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDUxMzA1LCJleHAiOjE1ODExMzc3MDV9.ijkRizSnfduV88nfdVNtFfvgOH-kDEN4aQlXwZc-vz8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user_id\":4,\n\t\"name\": \"Pedro\",\n\t\"surname\": \"Siqueira\",\n\t\"email\": \"joao.silva@deliveryexpress.com\",\n\t\"oldPassword\":\"!A12345b\",\n\t\"cellphone\": \"21999999999\",\n\t\"partner\": true,\n\t\"password\":\"!Ab12345\",\n\t\"confirmPassword\": \"!Ab12345\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users"
+							]
+						},
+						"description": "Atualiza o usuário pelo ID"
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDU3MzIxLCJleHAiOjE1ODExNDM3MjF9.BzAH0A38qoTUsm2n2BCDkOwCM91HVKsQ22a5gshtixo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users/5",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users",
+								"5"
+							]
+						},
+						"description": "Remove usuário pelo Id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Address",
+			"item": [
+				{
+					"name": "Address Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"postcode\": \"22710-571\",\n    \"country\": \"Brasil\",\n    \"state\": \"Rio de Janeiro\",\n    \"city\": \"Rio de Janeiro\",\n    \"district\":\"Taquara\",\n    \"address\": \"Estrada dos Bandeirantes\",\n    \"number\": 2000,\n    \"complement\": \"Loja 1\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users/2/address",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users",
+								"2",
+								"address"
+							]
+						},
+						"description": "Cria endereços para usuários existentes."
+					},
+					"response": []
+				},
+				{
+					"name": "Address List By ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDU3MzIxLCJleHAiOjE1ODExNDM3MjF9.BzAH0A38qoTUsm2n2BCDkOwCM91HVKsQ22a5gshtixo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/users/3/address",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"users",
+								"3",
+								"address"
+							]
+						},
+						"description": "Lista os endereços por usuário."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delivery",
+			"item": [
+				{
+					"name": "Delivery Create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDQzNjczLCJleHAiOjE1ODExMzAwNzN9.JHzMdiPiBop0wrH24-eirqFnuxFiDmGUPtB8Xzuz4E8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"client_id\": 4,\n    \"partner_id\": 1,\n    \"product\": \"Pizza 4 queijos\",\n    \"value\": 40.50\n}\n"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Lista todas as entregas"
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery List All",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMTg1NTUwLCJleHAiOjE1ODEyNzE5NTB9.-XMBhMtG9XJpeyFkw4miA8gn4djBUykK-qKSMjXNC4w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Cadastra as entregas"
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery List One",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery Done",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"delivery_id\":\"1\",\n\t\"delivered_at\": \"2019-02-06T16:34:00-03:00\",\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Adiciona a data de entrega."
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDQzNjczLCJleHAiOjE1ODExMzAwNzN9.JHzMdiPiBop0wrH24-eirqFnuxFiDmGUPtB8Xzuz4E8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"delivery_id\":\"1\",\n\t\"client_id\": 2,\n    \"partner_id\": 1,\n    \"product\": \"Pizza Calabresa e uma fanta uva\",\n    \"value\": 53.60,\n\t\"delivered_at\": \"2019-02-06T16:45:00-03:00\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Atualiza dados da entrega podendo incluir data de entrega."
+					},
+					"response": []
+				},
+				{
+					"name": "Delivery Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTgxMDQzNjczLCJleHAiOjE1ODExMzAwNzN9.JHzMdiPiBop0wrH24-eirqFnuxFiDmGUPtB8Xzuz4E8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"delivery_id\":\"6\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/deliveries",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"deliveries"
+							]
+						},
+						"description": "Remove a entrega do banco!"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Provider",
+			"item": [
+				{
+					"name": "Provider List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/partner/list",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"partner",
+								"list"
+							]
+						},
+						"description": "Lista todos os Provedores(Parceiros ou entregadores)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"philipe.siqueira@deliveryexpress.com\",\n\t\"password\":\"!A12345b\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}:{{API_PORT}}/sessions",
+							"host": [
+								"{{API_URL}}"
+							],
+							"port": "{{API_PORT}}",
+							"path": [
+								"sessions"
+							]
+						},
+						"description": "Autentica na aplicação"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c8e9eb2c-91cb-4ea0-b237-730d58b1c074",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "39d6d064-8664-4ad6-a661-38367246d34e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "56524ebe-f1be-4ba5-b0ba-9bd16cb8cbb3",
+			"key": "API_PORT",
+			"value": "81",
+			"type": "string"
+		},
+		{
+			"id": "e41b0b8a-26b3-4783-b253-1224be781f83",
+			"key": "API_URL",
+			"value": "localhost",
+			"type": "string"
+		}
+	]
+}
