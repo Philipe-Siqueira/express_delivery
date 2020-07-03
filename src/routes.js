@@ -6,6 +6,7 @@ import AddressController from './app/controllers/AddressController';
 import DeliveryController from './app/controllers/DeliveryController';
 import PartnerController from './app/controllers/PartnerController';
 import SessionController from './app/controllers/SessionController';
+import WeatherController from './app/controllers/WeatherController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -32,6 +33,8 @@ routes.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, options));
 routes.get('/', async (req, res) => {
   return res.json({ message: 'Unicad - Express Delivery!' });
 });
+
+routes.get('/weather', WeatherController.getWeather);
 
 // Routes
 
