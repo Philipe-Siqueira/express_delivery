@@ -34,7 +34,7 @@ routes.get('/', async (req, res) => {
   return res.json({ message: 'Unicad - Express Delivery!' });
 });
 
-routes.get('/weather', WeatherController.getWeather);
+routes.get('/weather/:woeid', WeatherController.getWeather);
 
 // Routes
 
